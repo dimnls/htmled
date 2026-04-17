@@ -4,190 +4,175 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>htmled</title>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
   :root {
-    --cream: #faf8f4;
-    --cream2: #f3f0ea;
-    --cream3: #ede9e0;
-    --ink: #1a1814;
-    --ink2: #3d3a35;
-    --ink3: #8a847a;
-    --ink4: #b8b2a8;
-    --red: #c0392b;
-    --red-light: rgba(192,57,43,0.08);
-    --red-mid: rgba(192,57,43,0.18);
-    --border: rgba(26,24,20,0.1);
-    --border2: rgba(26,24,20,0.06);
-    --shadow: 0 1px 3px rgba(26,24,20,0.08), 0 4px 16px rgba(26,24,20,0.04);
-    --shadow-lg: 0 2px 8px rgba(26,24,20,0.1), 0 12px 40px rgba(26,24,20,0.08);
+    --bg:       #141312;
+    --surface:  #1c1a18;
+    --surface2: #232120;
+    --surface3: #2a2826;
+    --border:   rgba(255,255,255,0.07);
+    --border2:  rgba(255,255,255,0.04);
+    --border3:  rgba(255,255,255,0.12);
+    --text:     #f0ece6;
+    --text2:    #9e988f;
+    --text3:    #5e5a55;
+    --amber:    #e8a44a;
+    --amber-dim: rgba(232,164,74,0.12);
+    --amber-mid: rgba(232,164,74,0.22);
+    --amber-glow: rgba(232,164,74,0.06);
   }
 
   html, body {
     height: 100%;
-    background: var(--cream);
-    color: var(--ink);
+    background: var(--bg);
+    color: var(--text);
     font-family: 'DM Sans', sans-serif;
     font-size: 14px;
     line-height: 1.5;
     -webkit-font-smoothing: antialiased;
   }
 
-  #app {
-    display: flex;
-    flex-direction: column;
-    height: 100vh;
-  }
+  #app { display: flex; flex-direction: column; height: 100vh; }
 
+  /* ── Header ── */
   #header {
     display: flex;
     align-items: center;
-    gap: 12px;
-    padding: 0 24px;
-    height: 52px;
-    background: var(--cream);
+    gap: 10px;
+    padding: 0 20px;
+    height: 50px;
+    background: var(--surface);
     border-bottom: 1px solid var(--border);
     flex-shrink: 0;
-    position: relative;
     z-index: 10;
   }
 
   .wordmark {
-    font-family: 'Playfair Display', serif;
-    font-weight: 700;
-    font-size: 18px;
-    color: var(--ink);
-    letter-spacing: -0.02em;
+    font-family: 'Instrument Serif', serif;
+    font-size: 19px;
+    color: var(--text);
+    letter-spacing: -0.01em;
     user-select: none;
-    margin-right: 4px;
+    margin-right: 6px;
+    line-height: 1;
   }
   .wordmark em {
     font-style: italic;
-    font-weight: 400;
-    color: var(--red);
+    color: var(--amber);
   }
 
-  .sep {
-    width: 1px;
-    height: 16px;
-    background: var(--border);
-    margin: 0 4px;
-  }
+  .sep { width: 1px; height: 16px; background: var(--border3); margin: 0 2px; }
 
   .btn {
     font-family: 'DM Sans', sans-serif;
     font-size: 13px;
     font-weight: 400;
-    padding: 6px 14px;
-    border-radius: 6px;
-    border: 1px solid var(--border);
-    background: white;
-    color: var(--ink2);
+    padding: 5px 13px;
+    border-radius: 7px;
+    border: 1px solid var(--border3);
+    background: var(--surface3);
+    color: var(--text2);
     cursor: pointer;
-    transition: all 0.15s ease;
+    transition: all 0.14s;
     white-space: nowrap;
-    letter-spacing: 0;
   }
-  .btn:hover { background: var(--cream2); border-color: rgba(26,24,20,0.18); color: var(--ink); }
-  .btn:active { transform: scale(0.98); }
-  .btn:disabled { opacity: 0.35; cursor: default; pointer-events: none; }
+  .btn:hover { background: var(--surface3); border-color: rgba(255,255,255,0.18); color: var(--text); }
+  .btn:active { transform: scale(0.97); }
+  .btn:disabled { opacity: 0.3; cursor: default; pointer-events: none; }
 
   .btn-primary {
-    background: var(--ink);
-    border-color: var(--ink);
-    color: var(--cream);
+    background: var(--text);
+    border-color: var(--text);
+    color: var(--bg);
     font-weight: 500;
   }
-  .btn-primary:hover { background: var(--ink2); border-color: var(--ink2); color: var(--cream); }
+  .btn-primary:hover { background: #d8d4ce; border-color: #d8d4ce; color: var(--bg); }
 
-  .btn-red {
-    background: var(--red);
-    border-color: var(--red);
-    color: white;
+  .btn-amber {
+    background: var(--amber);
+    border-color: var(--amber);
+    color: #1a1100;
     font-weight: 500;
   }
-  .btn-red:hover { background: #a93226; border-color: #a93226; color: white; }
+  .btn-amber:hover { background: #d4943c; border-color: #d4943c; color: #1a1100; }
 
   #edit-badge {
     font-size: 11px;
     font-weight: 500;
-    color: var(--ink4);
+    color: var(--text3);
     padding: 3px 10px;
-    background: var(--cream2);
+    background: var(--surface2);
     border: 1px solid var(--border);
     border-radius: 20px;
     transition: all 0.2s;
+    letter-spacing: 0.01em;
   }
   #edit-badge.active {
-    color: var(--red);
-    background: var(--red-light);
-    border-color: rgba(192,57,43,0.2);
+    color: var(--amber);
+    background: var(--amber-dim);
+    border-color: rgba(232,164,74,0.25);
   }
 
   #status {
     margin-left: auto;
     font-size: 12px;
-    color: var(--ink4);
-    max-width: 300px;
+    color: var(--text3);
+    max-width: 280px;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-    font-style: italic;
   }
-  #status.active { color: var(--ink3); font-style: normal; }
-  #status.editing { color: var(--red); font-style: italic; }
+  #status.active { color: var(--text2); }
+  #status.editing { color: var(--amber); font-style: italic; }
 
-  #main {
-    flex: 1;
-    display: flex;
-    overflow: hidden;
-    position: relative;
-  }
+  /* ── Main ── */
+  #main { flex: 1; display: flex; overflow: hidden; position: relative; }
 
+  /* ── Paste Panel ── */
   #paste-panel {
     width: 100%;
     display: flex;
     flex-direction: column;
     overflow: hidden;
-    background: var(--cream);
+    background: var(--bg);
   }
 
   .center-col {
-    max-width: 680px;
+    max-width: 660px;
     width: 100%;
     margin: 0 auto;
-    padding: 32px 24px 24px;
+    padding: 36px 24px 24px;
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 22px;
     height: 100%;
     overflow: hidden;
+    animation: fadein 0.25s ease;
   }
 
   .panel-heading { flex-shrink: 0; }
   .panel-heading h1 {
-    font-family: 'Playfair Display', serif;
-    font-size: 22px;
-    font-weight: 700;
-    color: var(--ink);
+    font-family: 'Instrument Serif', serif;
+    font-size: 24px;
+    font-weight: 400;
+    color: var(--text);
     letter-spacing: -0.02em;
-    margin-bottom: 4px;
+    margin-bottom: 5px;
+    line-height: 1.2;
   }
-  .panel-heading p {
-    font-size: 13px;
-    color: var(--ink3);
-    font-weight: 300;
-  }
+  .panel-heading h1 em { font-style: italic; color: var(--amber); }
+  .panel-heading p { font-size: 13px; color: var(--text2); font-weight: 300; line-height: 1.6; }
 
+  /* Tabs */
   #input-tabs {
     display: flex;
-    gap: 0;
     border-bottom: 1px solid var(--border);
     flex-shrink: 0;
+    gap: 0;
   }
-
   .tab {
     font-family: 'DM Sans', sans-serif;
     font-size: 13px;
@@ -195,46 +180,42 @@
     padding: 8px 18px;
     border: none;
     background: transparent;
-    color: var(--ink4);
+    color: var(--text3);
     cursor: pointer;
     border-bottom: 2px solid transparent;
     margin-bottom: -1px;
-    transition: all 0.15s;
+    transition: all 0.14s;
   }
-  .tab:hover { color: var(--ink2); }
-  .tab.active { color: var(--ink); border-bottom-color: var(--red); font-weight: 500; }
+  .tab:hover { color: var(--text2); }
+  .tab.active { color: var(--text); border-bottom-color: var(--amber); font-weight: 500; }
 
   #paste-view, #upload-view {
-    flex: 1;
-    display: none;
-    flex-direction: column;
-    gap: 16px;
-    overflow: hidden;
-    padding-top: 16px;
+    flex: 1; display: none; flex-direction: column;
+    gap: 14px; overflow: hidden; padding-top: 14px;
   }
   #paste-view.active, #upload-view.active { display: flex; }
 
   #html-input {
     flex: 1;
-    font-family: 'Courier New', monospace;
-    font-size: 12px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
     line-height: 1.7;
-    padding: 16px 20px;
-    border-radius: 8px;
+    padding: 16px 18px;
+    border-radius: 10px;
     border: 1px solid var(--border);
-    background: white;
-    color: var(--ink2);
+    background: var(--surface);
+    color: var(--text2);
     resize: none;
     outline: none;
     transition: border-color 0.15s, box-shadow 0.15s;
-    box-shadow: var(--shadow);
     min-height: 0;
   }
   #html-input:focus {
-    border-color: rgba(192,57,43,0.3);
-    box-shadow: 0 0 0 3px var(--red-light), var(--shadow);
+    border-color: rgba(232,164,74,0.3);
+    box-shadow: 0 0 0 3px var(--amber-glow);
+    color: var(--text);
   }
-  #html-input::placeholder { color: var(--ink4); }
+  #html-input::placeholder { color: var(--text3); }
 
   #drop-zone {
     flex: 1;
@@ -242,115 +223,91 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 20px;
-    border: 1.5px dashed var(--border);
-    border-radius: 10px;
-    background: white;
+    gap: 18px;
+    border: 1px dashed var(--border3);
+    border-radius: 12px;
+    background: var(--surface);
     cursor: pointer;
     transition: all 0.2s;
     min-height: 0;
     position: relative;
-    box-shadow: var(--shadow);
   }
   #drop-zone:hover, #drop-zone.drag-over {
-    border-color: rgba(192,57,43,0.4);
-    background: var(--red-light);
+    border-color: rgba(232,164,74,0.35);
+    background: var(--amber-glow);
   }
   #drop-zone input[type="file"] {
-    position: absolute;
-    inset: 0;
-    opacity: 0;
-    cursor: pointer;
+    position: absolute; inset: 0; opacity: 0; cursor: pointer;
   }
 
   .drop-icon {
-    width: 52px;
-    height: 52px;
-    border: 1px solid var(--border);
+    width: 48px; height: 48px;
+    border: 1px solid var(--border3);
     border-radius: 12px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: var(--cream);
-    color: var(--ink3);
-    font-size: 22px;
+    display: flex; align-items: center; justify-content: center;
+    background: var(--surface2);
+    color: var(--text3);
+    font-size: 20px;
     transition: all 0.2s;
   }
   #drop-zone:hover .drop-icon {
-    border-color: rgba(192,57,43,0.3);
-    color: var(--red);
-    background: white;
+    border-color: rgba(232,164,74,0.3);
+    color: var(--amber);
+    background: var(--surface3);
   }
 
   .drop-text { text-align: center; }
-  .drop-text strong { font-weight: 500; color: var(--ink2); font-size: 14px; }
-  .drop-text p { font-size: 12px; color: var(--ink4); margin-top: 3px; font-weight: 300; }
+  .drop-text strong { font-weight: 500; color: var(--text2); font-size: 14px; }
+  .drop-text p { font-size: 12px; color: var(--text3); margin-top: 3px; font-weight: 300; }
 
   #file-chip {
     display: none;
     align-items: center;
     gap: 8px;
-    padding: 6px 14px;
-    background: var(--red-light);
-    border: 1px solid rgba(192,57,43,0.2);
+    padding: 5px 12px;
+    background: var(--amber-dim);
+    border: 1px solid rgba(232,164,74,0.22);
     border-radius: 20px;
     font-size: 12px;
-    color: var(--red);
+    color: var(--amber);
     font-weight: 500;
   }
 
   .panel-footer {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    flex-shrink: 0;
-    padding-bottom: 8px;
+    display: flex; align-items: center; gap: 10px;
+    flex-shrink: 0; padding-bottom: 8px;
   }
-  .panel-footer-hint {
-    font-size: 11px;
-    color: var(--ink4);
-    margin-left: 4px;
-    font-weight: 300;
-  }
+  .panel-footer-hint { font-size: 11px; color: var(--text3); margin-left: 4px; font-weight: 300; }
 
-  #editor-panel {
-    display: none;
-    width: 100%;
-    flex-direction: column;
-    overflow: hidden;
-  }
+  /* ── Editor ── */
+  #editor-panel { display: none; width: 100%; flex-direction: column; overflow: hidden; }
 
   #editor-hint {
-    padding: 8px 24px;
+    padding: 7px 20px;
     font-size: 12px;
-    color: var(--ink3);
+    color: var(--text3);
     border-bottom: 1px solid var(--border2);
-    background: var(--cream2);
+    background: var(--surface);
     flex-shrink: 0;
     display: flex;
     align-items: center;
-    gap: 6px;
+    gap: 8px;
     font-weight: 300;
   }
-  #editor-hint .dot {
-    width: 6px; height: 6px;
-    background: var(--red);
+  .hint-dot {
+    width: 5px; height: 5px;
+    background: var(--amber);
     border-radius: 50%;
     flex-shrink: 0;
   }
 
-  #preview-frame {
-    flex: 1;
-    border: none;
-    width: 100%;
-    background: white;
-  }
+  #preview-frame { flex: 1; border: none; width: 100%; background: white; }
 
+  /* ── Output ── */
   #output-panel {
     display: none;
-    position: absolute;
-    inset: 0;
-    background: var(--cream);
+    position: absolute; inset: 0;
+    background: var(--bg);
     z-index: 20;
     flex-direction: column;
     overflow: hidden;
@@ -360,34 +317,29 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 16px 24px;
+    padding: 14px 22px;
     border-bottom: 1px solid var(--border);
-    background: var(--cream);
+    background: var(--surface);
     flex-shrink: 0;
   }
   #output-header h2 {
-    font-family: 'Playfair Display', serif;
+    font-family: 'Instrument Serif', serif;
     font-size: 16px;
-    font-weight: 700;
-    color: var(--ink);
+    color: var(--text);
     letter-spacing: -0.01em;
+    font-weight: 400;
   }
-  #output-header p {
-    font-size: 12px;
-    color: var(--ink4);
-    margin-top: 2px;
-    font-weight: 300;
-  }
+  #output-header p { font-size: 12px; color: var(--text3); margin-top: 2px; font-weight: 300; }
 
   #output-code {
     flex: 1;
-    font-family: 'Courier New', monospace;
-    font-size: 12px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12.5px;
     line-height: 1.8;
-    padding: 24px 32px;
+    padding: 24px 28px;
     border: none;
-    background: white;
-    color: var(--ink2);
+    background: var(--surface);
+    color: var(--text2);
     resize: none;
     outline: none;
     overflow: auto;
@@ -395,45 +347,45 @@
   }
 
   #output-footer {
-    display: flex;
-    gap: 10px;
-    align-items: center;
-    padding: 14px 24px;
+    display: flex; gap: 10px; align-items: center;
+    padding: 12px 22px;
     border-top: 1px solid var(--border);
-    background: var(--cream);
+    background: var(--surface);
     flex-shrink: 0;
   }
 
+  /* ── Scrollbar ── */
   ::-webkit-scrollbar { width: 5px; height: 5px; }
   ::-webkit-scrollbar-track { background: transparent; }
-  ::-webkit-scrollbar-thumb { background: var(--cream3); border-radius: 3px; }
-  ::-webkit-scrollbar-thumb:hover { background: var(--ink4); }
+  ::-webkit-scrollbar-thumb { background: var(--surface3); border-radius: 3px; }
+  ::-webkit-scrollbar-thumb:hover { background: var(--text3); }
 
   @keyframes fadein {
-    from { opacity: 0; transform: translateY(6px); }
-    to { opacity: 1; transform: translateY(0); }
+    from { opacity: 0; transform: translateY(8px); }
+    to   { opacity: 1; transform: translateY(0); }
   }
-  .center-col { animation: fadein 0.3s ease; }
 </style>
 </head>
 <body>
 
 <div id="app">
+
   <div id="header">
     <span class="wordmark">html<em>ed</em></span>
     <div class="sep"></div>
     <button class="btn" id="btn-back" onclick="showPaste()" disabled>← new file</button>
-    <button class="btn btn-red" id="btn-output" onclick="showOutput()" disabled>export</button>
+    <button class="btn btn-amber" id="btn-output" onclick="showOutput()" disabled>export</button>
     <span id="edit-badge">0 edits</span>
     <span id="status">ready when you are</span>
   </div>
 
   <div id="main">
 
+    <!-- Input panel -->
     <div id="paste-panel">
       <div class="center-col">
         <div class="panel-heading">
-          <h1>Paste or upload HTML</h1>
+          <h1>Paste or upload <em>HTML</em></h1>
           <p>Click any text in the preview to edit it inline. Export clean HTML when you're done.</p>
         </div>
 
@@ -443,7 +395,7 @@
         </div>
 
         <div id="paste-view" class="active">
-          <textarea id="html-input" placeholder="<html>&#10;  <body>&#10;    ...&#10;  </body>&#10;</html>"></textarea>
+          <textarea id="html-input" placeholder="<html>&#10;  <body>&#10;    paste your html here...&#10;  </body>&#10;</html>"></textarea>
           <div class="panel-footer">
             <button class="btn btn-primary" onclick="loadHtml()">Preview &amp; edit →</button>
             <button class="btn" onclick="loadSample()">Try a sample</button>
@@ -457,7 +409,7 @@
             <div class="drop-icon">↑</div>
             <div class="drop-text">
               <strong>Drop your .html file here</strong>
-              <p>or click to browse files</p>
+              <p>or click to browse</p>
             </div>
           </div>
           <div id="file-chip">
@@ -471,19 +423,21 @@
       </div>
     </div>
 
+    <!-- Editor -->
     <div id="editor-panel">
       <div id="editor-hint">
-        <span class="dot"></span>
-        Click any text to edit it inline — press Enter or Esc to confirm
+        <span class="hint-dot"></span>
+        Click any text to edit — Enter or Esc to confirm
       </div>
       <iframe id="preview-frame" sandbox="allow-same-origin allow-scripts"></iframe>
     </div>
 
+    <!-- Output -->
     <div id="output-panel">
       <div id="output-header">
         <div>
           <h2>Exported HTML</h2>
-          <p>Your edits have been applied and the editor scaffolding removed.</p>
+          <p>Editor scaffolding stripped — your structure is untouched.</p>
         </div>
         <button class="btn" onclick="hideOutput()">← back to editor</button>
       </div>
@@ -491,7 +445,7 @@
       <div id="output-footer">
         <button class="btn btn-primary" onclick="copyOutput()">Copy to clipboard</button>
         <button class="btn" onclick="downloadOutput()">Download .html</button>
-        <span style="margin-left:auto;font-size:12px;color:var(--ink4);font-weight:300;" id="copy-confirm"></span>
+        <span style="margin-left:auto;font-size:12px;color:var(--text3);" id="copy-confirm"></span>
       </div>
     </div>
 
@@ -517,96 +471,64 @@ const injectScript = `
         return NodeFilter.FILTER_ACCEPT;
       }
     });
-    const nodes = [];
-    let n;
+    const nodes = []; let n;
     while ((n = walker.nextNode())) nodes.push(n);
     return nodes;
   }
-
   const style = document.createElement('style');
-  style.id = '__markup_style__';
+  style.id = '__htmled_style__';
   style.textContent = [
-    '[data-markup] { cursor: text !important; border-radius: 2px; transition: background 0.12s; outline: 1.5px solid transparent; outline-offset: 1px; }',
-    '[data-markup]:hover { background: rgba(192,57,43,0.10) !important; outline-color: rgba(192,57,43,0.25) !important; }',
-    '[data-markup]:focus { background: rgba(192,57,43,0.14) !important; outline: 1.5px solid rgba(192,57,43,0.5) !important; outline-offset: 2px; }'
+    '[data-htmled] { cursor: text !important; border-radius: 2px; transition: background 0.1s; outline: 1.5px solid transparent; outline-offset: 1px; }',
+    '[data-htmled]:hover { background: rgba(232,164,74,0.14) !important; outline-color: rgba(232,164,74,0.3) !important; }',
+    '[data-htmled]:focus { background: rgba(232,164,74,0.2) !important; outline: 1.5px solid rgba(232,164,74,0.55) !important; outline-offset: 2px; }'
   ].join('');
   (document.head || document.documentElement).appendChild(style);
-
-  function wrapNode(textNode) {
-    const span = document.createElement('span');
-    span.setAttribute('data-markup', '');
-    span.setAttribute('contenteditable', 'true');
-    span.setAttribute('spellcheck', 'false');
-    span.textContent = textNode.textContent;
-    span.addEventListener('focus', function() {
-      parent.postMessage({ type: 'editing', text: span.textContent.trim().substring(0, 50) }, '*');
+  function wrapNode(t) {
+    const s = document.createElement('span');
+    s.setAttribute('data-htmled',''); s.setAttribute('contenteditable','true'); s.setAttribute('spellcheck','false');
+    s.textContent = t.textContent;
+    s.addEventListener('focus', function() { parent.postMessage({type:'editing',text:s.textContent.trim().substring(0,50)},'*'); });
+    s.addEventListener('blur',  function() { parent.postMessage({type:'idle'},'*'); });
+    s.addEventListener('input', function() { parent.postMessage({type:'changed'},'*'); });
+    s.addEventListener('keydown', function(e) {
+      if (e.key==='Escape'||(e.key==='Enter'&&!e.shiftKey)){e.preventDefault();s.blur();}
     });
-    span.addEventListener('blur', function() {
-      parent.postMessage({ type: 'idle' }, '*');
-    });
-    span.addEventListener('input', function() {
-      parent.postMessage({ type: 'changed' }, '*');
-    });
-    span.addEventListener('keydown', function(e) {
-      if (e.key === 'Escape' || (e.key === 'Enter' && !e.shiftKey)) {
-        e.preventDefault();
-        span.blur();
-      }
-    });
-    if (textNode.parentNode) textNode.parentNode.replaceChild(span, textNode);
+    if (t.parentNode) t.parentNode.replaceChild(s, t);
   }
-
-  const target = document.body || document.documentElement;
-  const nodes = getTextNodes(target);
+  const nodes = getTextNodes(document.body || document.documentElement);
   nodes.forEach(wrapNode);
-  parent.postMessage({ type: 'ready', count: nodes.length }, '*');
+  parent.postMessage({type:'ready',count:nodes.length},'*');
 })();
 `;
 
 function switchTab(tab) {
-  document.querySelectorAll('.tab').forEach((t, i) => {
-    t.classList.toggle('active', (i === 0 && tab === 'paste') || (i === 1 && tab === 'upload'));
+  document.querySelectorAll('.tab').forEach((t,i) => {
+    t.classList.toggle('active',(i===0&&tab==='paste')||(i===1&&tab==='upload'));
   });
-  document.getElementById('paste-view').classList.toggle('active', tab === 'paste');
-  document.getElementById('upload-view').classList.toggle('active', tab === 'upload');
+  document.getElementById('paste-view').classList.toggle('active', tab==='paste');
+  document.getElementById('upload-view').classList.toggle('active', tab==='upload');
 }
 
-function onDragOver(e) {
-  e.preventDefault();
-  document.getElementById('drop-zone').classList.add('drag-over');
-}
-function onDragLeave() {
-  document.getElementById('drop-zone').classList.remove('drag-over');
-}
+function onDragOver(e) { e.preventDefault(); document.getElementById('drop-zone').classList.add('drag-over'); }
+function onDragLeave()  { document.getElementById('drop-zone').classList.remove('drag-over'); }
 function onDrop(e) {
-  e.preventDefault();
-  document.getElementById('drop-zone').classList.remove('drag-over');
-  const file = e.dataTransfer.files[0];
-  if (file) readFile(file);
+  e.preventDefault(); document.getElementById('drop-zone').classList.remove('drag-over');
+  const f = e.dataTransfer.files[0]; if (f) readFile(f);
 }
-function onFileSelect(e) {
-  const file = e.target.files[0];
-  if (file) readFile(file);
-}
+function onFileSelect(e) { const f = e.target.files[0]; if (f) readFile(f); }
 function readFile(file) {
-  if (!file.name.match(/\.html?$/i)) {
-    setStatus('only .html / .htm files supported', '');
-    return;
-  }
-  const reader = new FileReader();
-  reader.onload = function(e) {
+  if (!file.name.match(/\.html?$/i)) { setStatus('only .html / .htm files',''); return; }
+  const r = new FileReader();
+  r.onload = function(e) {
     pendingFileContent = e.target.result;
-    const chip = document.getElementById('file-chip');
     document.getElementById('file-chip-name').textContent = file.name;
-    chip.style.display = 'flex';
+    document.getElementById('file-chip').style.display = 'flex';
     document.getElementById('btn-load-file').disabled = false;
     setStatus(file.name + ' ready', 'active');
   };
-  reader.readAsText(file);
+  r.readAsText(file);
 }
-function loadFromFile() {
-  if (pendingFileContent) injectAndRender(pendingFileContent);
-}
+function loadFromFile() { if (pendingFileContent) injectAndRender(pendingFileContent); }
 
 function loadHtml() {
   const raw = document.getElementById('html-input').value.trim();
@@ -649,118 +571,87 @@ function loadSample() {
 }
 
 function injectAndRender(html) {
-  editCount = 0;
-  updateBadge();
+  editCount = 0; updateBadge();
   const frame = document.getElementById('preview-frame');
   document.getElementById('paste-panel').style.display = 'none';
   document.getElementById('editor-panel').style.display = 'flex';
   document.getElementById('btn-back').disabled = false;
   document.getElementById('btn-output').disabled = true;
-  setStatus('loading…', '');
-
+  setStatus('loading…','');
   const doc = frame.contentDocument || frame.contentWindow.document;
   doc.open(); doc.write(html); doc.close();
-
   setTimeout(() => {
     try {
       const win = frame.contentWindow;
       const s = win.document.createElement('script');
       s.textContent = injectScript;
       (win.document.head || win.document.documentElement).appendChild(s);
-    } catch(e) {
-      setStatus('could not inject editor', '');
-    }
+    } catch(e) { setStatus('could not inject editor',''); }
   }, 300);
 }
 
 window.addEventListener('message', function(e) {
-  if (e.data.type === 'ready') {
+  if (e.data.type==='ready') {
     const n = e.data.count;
-    setStatus(n + ' text node' + (n !== 1 ? 's' : '') + ' — click any text to edit', 'active');
+    setStatus(n + ' text node'+(n!==1?'s':'')+' — click to edit','active');
     document.getElementById('btn-output').disabled = false;
   }
-  if (e.data.type === 'editing') {
+  if (e.data.type==='editing') {
     const t = e.data.text;
-    setStatus('"' + (t.length >= 50 ? t + '…' : t) + '"', 'editing');
+    setStatus('"'+(t.length>=50?t+'…':t)+'"','editing');
   }
-  if (e.data.type === 'idle') {
-    setStatus('change confirmed', 'active');
-  }
-  if (e.data.type === 'changed') {
-    editCount++;
-    updateBadge();
-  }
+  if (e.data.type==='idle')    setStatus('change confirmed','active');
+  if (e.data.type==='changed') { editCount++; updateBadge(); }
 });
 
 function setStatus(msg, cls) {
   const s = document.getElementById('status');
-  s.textContent = msg;
-  s.className = cls || '';
+  s.textContent = msg; s.className = cls || '';
 }
-
 function updateBadge() {
   const el = document.getElementById('edit-badge');
-  el.textContent = editCount + (editCount === 1 ? ' edit' : ' edits');
-  el.className = editCount > 0 ? 'active' : '';
+  el.textContent = editCount+(editCount===1?' edit':' edits');
+  el.className = editCount>0?'active':'';
 }
-
 function showPaste() {
   document.getElementById('paste-panel').style.display = 'flex';
   document.getElementById('editor-panel').style.display = 'none';
   document.getElementById('output-panel').style.display = 'none';
   document.getElementById('btn-back').disabled = true;
   document.getElementById('btn-output').disabled = true;
-  editCount = 0;
-  updateBadge();
-  setStatus('ready when you are', '');
+  editCount = 0; updateBadge(); setStatus('ready when you are','');
 }
-
 function getExportedHtml() {
   const frame = document.getElementById('preview-frame');
-  const win = frame.contentWindow;
-  const doc = win.document;
+  const win = frame.contentWindow, doc = win.document;
   const clone = doc.cloneNode(true);
-  clone.querySelectorAll('[data-markup]').forEach(function(span) {
-    const text = doc.createTextNode(span.textContent);
-    span.parentNode.replaceChild(text, span);
+  clone.querySelectorAll('[data-htmled]').forEach(function(span) {
+    span.parentNode.replaceChild(doc.createTextNode(span.textContent), span);
   });
-  const injectedStyle = clone.getElementById('__markup_style__');
-  if (injectedStyle) injectedStyle.remove();
-  const hasHtml = clone.querySelector('html');
-  if (hasHtml) {
-    const dt = clone.doctype;
-    return (dt ? '<!DOCTYPE ' + dt.name + '>\n' : '') + clone.querySelector('html').outerHTML;
-  }
-  return (clone.body || clone.documentElement).innerHTML;
+  const st = clone.getElementById('__htmled_style__');
+  if (st) st.remove();
+  const h = clone.querySelector('html');
+  if (h) { const dt = clone.doctype; return (dt?'<!DOCTYPE '+dt.name+'>\n':'')+h.outerHTML; }
+  return (clone.body||clone.documentElement).innerHTML;
 }
-
 function showOutput() {
   document.getElementById('output-code').value = getExportedHtml();
   document.getElementById('output-panel').style.display = 'flex';
 }
-function hideOutput() {
-  document.getElementById('output-panel').style.display = 'none';
-}
-
+function hideOutput() { document.getElementById('output-panel').style.display = 'none'; }
 function copyOutput() {
   const ta = document.getElementById('output-code');
   const confirm = document.getElementById('copy-confirm');
   navigator.clipboard.writeText(ta.value).then(function() {
-    confirm.textContent = 'Copied to clipboard ✓';
-    setTimeout(function() { confirm.textContent = ''; }, 2500);
-  }).catch(function() {
-    ta.select(); document.execCommand('copy');
-  });
+    confirm.textContent = 'Copied ✓';
+    setTimeout(function(){ confirm.textContent=''; }, 2200);
+  }).catch(function(){ ta.select(); document.execCommand('copy'); });
 }
-
 function downloadOutput() {
-  const html = document.getElementById('output-code').value;
-  const blob = new Blob([html], { type: 'text/html' });
+  const blob = new Blob([document.getElementById('output-code').value],{type:'text/html'});
   const a = document.createElement('a');
-  a.href = URL.createObjectURL(blob);
-  a.download = 'htmled-export.html';
-  a.click();
-  setTimeout(function() { URL.revokeObjectURL(a.href); }, 1000);
+  a.href = URL.createObjectURL(blob); a.download = 'htmled-export.html'; a.click();
+  setTimeout(function(){ URL.revokeObjectURL(a.href); }, 1000);
 }
 </script>
 </body>
