@@ -25,6 +25,10 @@
   --accent-hi: #8b5cf6;
   --accent-lo: rgba(124,58,237,0.12);
   --accent-gl: rgba(124,58,237,0.06);
+  --amber:     #f59e0b;
+  --amber-hi:  #fbbf24;
+  --amber-lo:  rgba(245,158,11,0.12);
+  --amber-gl:  rgba(245,158,11,0.06);
   --green:     #22c55e;
 }
 
@@ -40,7 +44,6 @@ html, body {
 
 #app { display: flex; flex-direction: column; height: 100vh; }
 
-/* ── Header ── */
 #header {
   display: flex;
   align-items: center;
@@ -56,241 +59,92 @@ html, body {
   z-index: 10;
 }
 
-.wordmark {
-  font-size: 14px;
-  font-weight: 600;
-  color: var(--text);
-  letter-spacing: -0.03em;
-  user-select: none;
-  margin-right: 4px;
-}
-.wordmark span {
-  color: var(--accent-hi);
-  font-weight: 300;
-}
-
+.wordmark { font-size: 14px; font-weight: 600; color: var(--text); letter-spacing: -0.03em; user-select: none; margin-right: 4px; }
+.wordmark span { color: var(--accent-hi); font-weight: 300; }
 .vsep { width: 1px; height: 14px; background: var(--border2); margin: 0 2px; }
 
 .btn {
   font-family: 'Geist', sans-serif;
-  font-size: 12px;
-  font-weight: 400;
-  padding: 4px 12px;
-  height: 28px;
-  border-radius: 6px;
-  border: 1px solid var(--border2);
-  background: var(--s3);
-  color: var(--text2);
+  font-size: 12px; font-weight: 400;
+  padding: 4px 12px; height: 28px;
+  border-radius: 6px; border: 1px solid var(--border2);
+  background: var(--s3); color: var(--text2);
   cursor: pointer;
   transition: background 0.12s, border-color 0.12s, color 0.12s;
-  white-space: nowrap;
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
+  white-space: nowrap; display: inline-flex; align-items: center; gap: 5px;
 }
 .btn:hover { background: var(--s4); border-color: var(--border3); color: var(--text); }
 .btn:active { transform: scale(0.97); }
 .btn:disabled { opacity: 0.28; cursor: default; pointer-events: none; }
 
-.btn-white {
-  background: var(--text);
-  border-color: var(--text);
-  color: var(--bg);
-  font-weight: 500;
-}
+.btn-white { background: var(--text); border-color: var(--text); color: var(--bg); font-weight: 500; }
 .btn-white:hover { background: #e4e4e7; border-color: #e4e4e7; color: var(--bg); }
 
-.btn-accent {
-  background: var(--accent);
-  border-color: var(--accent);
-  color: #fff;
-  font-weight: 500;
-}
+.btn-accent { background: var(--accent); border-color: var(--accent); color: #fff; font-weight: 500; }
 .btn-accent:hover { background: var(--accent-hi); border-color: var(--accent-hi); }
 
-#edit-badge {
-  font-size: 11px;
-  font-weight: 500;
-  color: var(--text3);
-  padding: 2px 9px;
-  background: var(--s2);
-  border: 1px solid var(--border);
-  border-radius: 20px;
-  transition: all 0.18s;
-  letter-spacing: 0.01em;
-}
-#edit-badge.active {
-  color: var(--accent-hi);
-  background: var(--accent-lo);
-  border-color: rgba(139,92,246,0.3);
-}
+.mode-btn { font-size: 12px; font-weight: 400; padding: 4px 11px; height: 28px; border-radius: 6px; border: 1px solid var(--border2); background: var(--s3); color: var(--text2); cursor: pointer; transition: all 0.12s; display: inline-flex; align-items: center; gap: 5px; font-family: 'Geist', sans-serif; }
+.mode-btn:hover { background: var(--s4); border-color: var(--border3); color: var(--text); }
+.mode-btn.mode-edit-active { background: var(--accent); border-color: var(--accent); color: #fff; }
+.mode-btn.mode-comment-active { background: var(--amber); border-color: var(--amber); color: #fff; }
+.mode-btn:disabled { opacity: 0.28; cursor: default; pointer-events: none; }
 
-#status {
-  margin-left: auto;
-  font-size: 11.5px;
-  color: var(--text3);
-  max-width: 260px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+#edit-badge {
+  font-size: 11px; font-weight: 500; color: var(--text3);
+  padding: 2px 9px; background: var(--s2); border: 1px solid var(--border);
+  border-radius: 20px; transition: all 0.18s; letter-spacing: 0.01em;
 }
+#edit-badge.active { color: var(--accent-hi); background: var(--accent-lo); border-color: rgba(139,92,246,0.3); }
+
+#comment-badge {
+  font-size: 11px; font-weight: 500; color: var(--text3);
+  padding: 2px 9px; background: var(--s2); border: 1px solid var(--border);
+  border-radius: 20px; transition: all 0.18s; letter-spacing: 0.01em;
+}
+#comment-badge.active { color: var(--amber-hi); background: var(--amber-lo); border-color: rgba(245,158,11,0.3); }
+
+#status { margin-left: auto; font-size: 11.5px; color: var(--text3); max-width: 240px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 #status.active  { color: var(--text2); }
 #status.editing { color: var(--accent-hi); }
 #status.ok      { color: var(--green); }
 
-/* ── Main ── */
 #main { flex: 1; display: flex; overflow: hidden; position: relative; }
 
-/* ── Input Panel ── */
-#paste-panel {
-  width: 100%;
-  display: flex;
-  align-items: stretch;
-  overflow: hidden;
-  background: var(--bg);
-}
+#paste-panel { width: 100%; display: flex; align-items: stretch; overflow: hidden; background: var(--bg); }
 
-/* Split layout */
 .split-left {
-  width: 340px;
-  flex-shrink: 0;
-  border-right: 1px solid var(--border);
-  display: flex;
-  flex-direction: column;
-  padding: 32px 28px 24px;
-  gap: 28px;
-  background: var(--s1);
+  width: 340px; flex-shrink: 0; border-right: 1px solid var(--border);
+  display: flex; flex-direction: column; padding: 32px 28px 24px; gap: 28px; background: var(--s1);
 }
-
-.split-right {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  padding: 32px 28px 24px;
-  gap: 16px;
-  overflow: hidden;
-}
+.split-right { flex: 1; display: flex; flex-direction: column; padding: 32px 28px 24px; gap: 16px; overflow: hidden; }
 
 .logo-block { flex-shrink: 0; }
-.logo-mark {
-  font-size: 22px;
-  font-weight: 600;
-  letter-spacing: -0.04em;
-  color: var(--text);
-  line-height: 1;
-  margin-bottom: 10px;
-}
+.logo-mark { font-size: 22px; font-weight: 600; letter-spacing: -0.04em; color: var(--text); line-height: 1; margin-bottom: 10px; }
 .logo-mark span { color: var(--accent-hi); font-weight: 300; }
+.tagline { font-size: 13px; color: var(--text3); font-weight: 300; line-height: 1.6; }
 
-.tagline {
-  font-size: 13px;
-  color: var(--text3);
-  font-weight: 300;
-  line-height: 1.6;
-}
+.feature-list { display: flex; flex-direction: column; gap: 10px; }
+.feature-item { display: flex; align-items: flex-start; gap: 10px; font-size: 12.5px; color: var(--text2); font-weight: 300; line-height: 1.5; }
+.feature-dot { width: 4px; height: 4px; border-radius: 50%; background: var(--accent-hi); margin-top: 6px; flex-shrink: 0; opacity: 0.7; }
+.feature-dot.amber { background: var(--amber-hi); }
 
-.feature-list {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-.feature-item {
-  display: flex;
-  align-items: flex-start;
-  gap: 10px;
-  font-size: 12.5px;
-  color: var(--text2);
-  font-weight: 300;
-  line-height: 1.5;
-}
-.feature-dot {
-  width: 4px; height: 4px;
-  border-radius: 50%;
-  background: var(--accent-hi);
-  margin-top: 6px;
-  flex-shrink: 0;
-  opacity: 0.7;
-}
-
-/* Tabs */
-#input-tabs {
-  display: flex;
-  border-bottom: 1px solid var(--border);
-  flex-shrink: 0;
-}
-.tab {
-  font-family: 'Geist', sans-serif;
-  font-size: 12px;
-  font-weight: 400;
-  padding: 7px 16px;
-  border: none;
-  background: transparent;
-  color: var(--text3);
-  cursor: pointer;
-  border-bottom: 1.5px solid transparent;
-  margin-bottom: -1px;
-  transition: all 0.12s;
-}
+#input-tabs { display: flex; border-bottom: 1px solid var(--border); flex-shrink: 0; }
+.tab { font-family: 'Geist', sans-serif; font-size: 12px; font-weight: 400; padding: 7px 16px; border: none; background: transparent; color: var(--text3); cursor: pointer; border-bottom: 1.5px solid transparent; margin-bottom: -1px; transition: all 0.12s; }
 .tab:hover { color: var(--text2); }
 .tab.active { color: var(--text); border-bottom-color: var(--accent-hi); font-weight: 500; }
 
-#paste-view, #upload-view {
-  flex: 1; display: none; flex-direction: column;
-  gap: 12px; overflow: hidden; padding-top: 12px;
-}
+#paste-view, #upload-view { flex: 1; display: none; flex-direction: column; gap: 12px; overflow: hidden; padding-top: 12px; }
 #paste-view.active, #upload-view.active { display: flex; }
 
-#html-input {
-  flex: 1;
-  font-family: 'Geist', sans-serif;
-  font-size: 12.5px;
-  line-height: 1.7;
-  padding: 14px 16px;
-  border-radius: 8px;
-  border: 1px solid var(--border);
-  background: var(--s2);
-  color: var(--text2);
-  resize: none;
-  outline: none;
-  transition: border-color 0.14s, box-shadow 0.14s;
-  min-height: 0;
-}
-#html-input:focus {
-  border-color: rgba(139,92,246,0.4);
-  box-shadow: 0 0 0 3px var(--accent-gl);
-  color: var(--text);
-}
+#html-input { flex: 1; font-family: 'Geist', sans-serif; font-size: 12.5px; line-height: 1.7; padding: 14px 16px; border-radius: 8px; border: 1px solid var(--border); background: var(--s2); color: var(--text2); resize: none; outline: none; transition: border-color 0.14s, box-shadow 0.14s; min-height: 0; }
+#html-input:focus { border-color: rgba(139,92,246,0.4); box-shadow: 0 0 0 3px var(--accent-gl); color: var(--text); }
 #html-input::placeholder { color: var(--text3); }
 
-#drop-zone {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 14px;
-  border: 1px dashed var(--border2);
-  border-radius: 10px;
-  background: var(--s2);
-  cursor: pointer;
-  transition: all 0.18s;
-  min-height: 0;
-  position: relative;
-}
-#drop-zone:hover, #drop-zone.drag-over {
-  border-color: rgba(139,92,246,0.4);
-  background: var(--accent-gl);
-}
+#drop-zone { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px; border: 1px dashed var(--border2); border-radius: 10px; background: var(--s2); cursor: pointer; transition: all 0.18s; min-height: 0; position: relative; }
+#drop-zone:hover, #drop-zone.drag-over { border-color: rgba(139,92,246,0.4); background: var(--accent-gl); }
 #drop-zone input[type="file"] { position: absolute; inset: 0; opacity: 0; cursor: pointer; }
 
-.drop-icon {
-  width: 40px; height: 40px;
-  border: 1px solid var(--border2);
-  border-radius: 10px;
-  display: flex; align-items: center; justify-content: center;
-  background: var(--s3);
-  transition: all 0.18s;
-}
+.drop-icon { width: 40px; height: 40px; border: 1px solid var(--border2); border-radius: 10px; display: flex; align-items: center; justify-content: center; background: var(--s3); transition: all 0.18s; }
 .drop-icon svg { width: 16px; height: 16px; stroke: var(--text3); transition: stroke 0.18s; }
 #drop-zone:hover .drop-icon { border-color: rgba(139,92,246,0.35); background: var(--s4); }
 #drop-zone:hover .drop-icon svg { stroke: var(--accent-hi); }
@@ -299,107 +153,115 @@ html, body {
 .drop-text strong { font-weight: 500; color: var(--text2); font-size: 13px; }
 .drop-text p { font-size: 11.5px; color: var(--text3); margin-top: 3px; }
 
-#file-chip {
-  display: none;
-  align-items: center;
-  gap: 6px;
-  padding: 4px 11px;
-  background: var(--accent-lo);
-  border: 1px solid rgba(139,92,246,0.25);
-  border-radius: 20px;
-  font-size: 11.5px;
-  color: var(--accent-hi);
-  font-weight: 500;
-}
-
-.panel-footer {
-  display: flex; align-items: center; gap: 8px;
-  flex-shrink: 0;
-}
+#file-chip { display: none; align-items: center; gap: 6px; padding: 4px 11px; background: var(--accent-lo); border: 1px solid rgba(139,92,246,0.25); border-radius: 20px; font-size: 11.5px; color: var(--accent-hi); font-weight: 500; }
+.panel-footer { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
 .footer-hint { font-size: 11px; color: var(--text3); margin-left: 2px; }
 
-/* ── Editor ── */
 #editor-panel { display: none; width: 100%; flex-direction: column; overflow: hidden; }
 
 #editor-bar {
-  padding: 0 16px;
-  height: 36px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
+  padding: 0 14px; height: 34px;
+  display: flex; align-items: center; gap: 8px;
   border-bottom: 1px solid var(--border);
-  background: var(--s1);
-  flex-shrink: 0;
+  background: var(--s1); flex-shrink: 0;
 }
-.bar-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent-hi); opacity: 0.8; }
-#editor-bar span { font-size: 11.5px; color: var(--text3); }
+.bar-indicator { width: 6px; height: 6px; border-radius: 50%; background: var(--accent-hi); opacity: 0.8; transition: background 0.2s; flex-shrink: 0; }
+#bar-hint-text { font-size: 11.5px; color: var(--text3); }
 
-#preview-frame { flex: 1; border: none; width: 100%; background: #fff; }
+#preview-wrap { flex: 1; position: relative; overflow: hidden; }
+#preview-frame { width: 100%; height: 100%; border: none; background: #fff; display: block; }
 
-/* ── Output ── */
+.comment-pin {
+  position: absolute; width: 20px; height: 20px; border-radius: 50%;
+  background: var(--amber); color: #fff; font-size: 10px; font-weight: 700;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; z-index: 20;
+  transform: translate(-50%, -100%);
+  border: 2px solid rgba(255,255,255,0.3);
+  transition: transform 0.12s, box-shadow 0.12s;
+}
+.comment-pin:hover { transform: translate(-50%, -100%) scale(1.15); }
+.comment-pin.selected { box-shadow: 0 0 0 3px rgba(245,158,11,0.4); }
+
+#comment-bubble {
+  position: absolute; z-index: 30;
+  background: var(--s2); border: 1px solid var(--border3);
+  border-radius: 10px; padding: 11px 12px; width: 230px;
+  display: none; flex-direction: column; gap: 8px;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.4);
+}
+#comment-bubble-snippet {
+  font-size: 11px; color: var(--text3); font-style: italic;
+  line-height: 1.5; padding-bottom: 8px;
+  border-bottom: 1px solid var(--border);
+}
+#comment-bubble textarea {
+  font-family: 'Geist', sans-serif; font-size: 12.5px; line-height: 1.6;
+  padding: 8px 10px; border-radius: 6px;
+  border: 1px solid var(--border2); background: var(--s3); color: var(--text);
+  resize: none; outline: none; height: 68px;
+}
+#comment-bubble textarea:focus { border-color: rgba(245,158,11,0.4); }
+.bubble-actions { display: flex; gap: 6px; }
+.bubble-save { flex: 1; font-size: 12px; font-weight: 500; padding: 5px; border-radius: 5px; border: none; background: var(--amber); color: #fff; cursor: pointer; font-family: 'Geist', sans-serif; }
+.bubble-save:hover { background: var(--amber-hi); }
+.bubble-cancel { font-size: 12px; padding: 5px 10px; border-radius: 5px; border: 1px solid var(--border2); background: transparent; color: var(--text3); cursor: pointer; font-family: 'Geist', sans-serif; }
+.bubble-cancel:hover { color: var(--text2); }
+
+#comment-sidebar {
+  width: 230px; flex-shrink: 0;
+  border-left: 1px solid var(--border);
+  background: var(--s1);
+  display: none; flex-direction: column; overflow: hidden;
+}
+#sidebar-head {
+  padding: 10px 14px; border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: space-between; flex-shrink: 0;
+}
+.sidebar-title { font-size: 11px; font-weight: 500; color: var(--text3); letter-spacing: 0.06em; text-transform: uppercase; }
+.sidebar-clear { font-size: 11px; color: var(--text3); background: none; border: none; cursor: pointer; font-family: 'Geist', sans-serif; padding: 0; }
+.sidebar-clear:hover { color: var(--text2); }
+#comment-list { flex: 1; overflow-y: auto; padding: 8px; }
+
+.no-comments { font-size: 12px; color: var(--text3); padding: 16px 4px; text-align: center; line-height: 1.7; }
+
+.comment-card {
+  border-radius: 8px; border: 1px solid var(--border);
+  background: var(--s2); padding: 10px 11px; margin-bottom: 7px;
+  cursor: pointer; transition: border-color 0.12s;
+}
+.comment-card:hover { border-color: var(--border2); }
+.comment-card.selected { border-color: var(--amber); background: var(--amber-gl); }
+.cc-top { display: flex; align-items: center; gap: 7px; margin-bottom: 6px; }
+.cc-num { width: 16px; height: 16px; border-radius: 50%; background: var(--amber); color: #fff; font-size: 9px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.cc-snip { font-size: 11px; color: var(--text3); font-style: italic; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; flex: 1; }
+.cc-note { font-size: 12px; color: var(--text2); line-height: 1.5; }
+.cc-del { font-size: 11px; color: var(--text3); background: none; border: none; cursor: pointer; padding: 0; margin-top: 5px; display: block; font-family: 'Geist', sans-serif; }
+.cc-del:hover { color: var(--text2); }
+
 #output-panel {
-  display: none;
-  position: absolute; inset: 0;
-  background: var(--bg);
-  z-index: 20;
-  flex-direction: column;
-  overflow: hidden;
+  display: none; position: absolute; inset: 0;
+  background: var(--bg); z-index: 20;
+  flex-direction: column; overflow: hidden;
 }
-
-#output-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 20px;
-  height: 44px;
-  border-bottom: 1px solid var(--border);
-  background: var(--s1);
-  flex-shrink: 0;
-}
+#output-header { display: flex; align-items: center; justify-content: space-between; padding: 0 20px; height: 44px; border-bottom: 1px solid var(--border); background: var(--s1); flex-shrink: 0; }
 #output-header .out-title { font-size: 13px; font-weight: 500; color: var(--text); }
 #output-header .out-sub   { font-size: 11px; color: var(--text3); margin-top: 1px; }
+#output-code { flex: 1; font-family: 'Geist', monospace; font-size: 12px; line-height: 1.8; padding: 24px 28px; border: none; background: var(--s1); color: var(--text2); resize: none; outline: none; overflow: auto; white-space: pre; }
+#output-footer { display: flex; gap: 8px; align-items: center; padding: 10px 20px; border-top: 1px solid var(--border); background: var(--s1); flex-shrink: 0; }
 
-#output-code {
-  flex: 1;
-  font-family: 'Geist', monospace;
-  font-size: 12px;
-  line-height: 1.8;
-  padding: 24px 28px;
-  border: none;
-  background: var(--s1);
-  color: var(--text2);
-  resize: none;
-  outline: none;
-  overflow: auto;
-  white-space: pre;
-}
-
-#output-footer {
-  display: flex; gap: 8px; align-items: center;
-  padding: 10px 20px;
-  border-top: 1px solid var(--border);
-  background: var(--s1);
-  flex-shrink: 0;
-}
-
-/* ── Scrollbar ── */
 ::-webkit-scrollbar { width: 4px; height: 4px; }
 ::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb { background: var(--s4); border-radius: 2px; }
 ::-webkit-scrollbar-thumb:hover { background: var(--text3); }
 
-@keyframes up {
-  from { opacity: 0; transform: translateY(10px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
+@keyframes up { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 #paste-panel { animation: up 0.2s ease; }
 </style>
 </head>
 <body>
 
 <div id="app">
-
-  <!-- Header -->
   <div id="header">
     <span class="wordmark">html<span>ed</span></span>
     <div class="vsep"></div>
@@ -407,16 +269,25 @@ html, body {
       <svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 2L3 5l3 3"/></svg>
       new file
     </button>
-    <button class="btn btn-accent" id="btn-output" onclick="showOutput()" disabled>export</button>
+    <div class="vsep"></div>
+    <button class="mode-btn mode-edit-active" id="btn-mode-edit" onclick="setMode('edit')" disabled>
+      <svg width="11" height="11" viewBox="0 0 11 11" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M1 8.5L3 9l6-6-1-1-6 6zM7.5 1.5l2 2"/></svg>
+      Edit
+    </button>
+    <button class="mode-btn" id="btn-mode-comment" onclick="setMode('comment')" disabled>
+      <svg width="11" height="11" viewBox="0 0 11 11" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M1.5 1.5h8v6h-4.5l-2 2v-2h-1.5z"/></svg>
+      Comment
+    </button>
+    <div class="vsep"></div>
     <span id="edit-badge">0 edits</span>
+    <span id="comment-badge">0 comments</span>
+    <button class="btn btn-accent" id="btn-output" onclick="showOutput()" disabled>export</button>
     <span id="status">—</span>
   </div>
 
   <div id="main">
 
-    <!-- Input -->
     <div id="paste-panel">
-
       <div class="split-left">
         <div class="logo-block">
           <div class="logo-mark">html<span>ed</span></div>
@@ -426,16 +297,14 @@ html, body {
           <div class="feature-item"><span class="feature-dot"></span><span>Click any text in the preview to edit it directly</span></div>
           <div class="feature-item"><span class="feature-dot"></span><span>Paste raw HTML or upload a <code style="font-family:inherit;color:var(--accent-hi);font-size:11.5px;">.html</code> file</span></div>
           <div class="feature-item"><span class="feature-dot"></span><span>Export strips editor scaffolding — structure stays untouched</span></div>
-          <div class="feature-item"><span class="feature-dot"></span><span>Copy to clipboard or download as file</span></div>
+          <div class="feature-item"><span class="feature-dot amber"></span><span>Select any text in Comment mode to leave a note</span></div>
         </div>
       </div>
-
       <div class="split-right">
         <div id="input-tabs">
           <button class="tab active" onclick="switchTab('paste')">Paste HTML</button>
           <button class="tab" onclick="switchTab('upload')">Upload file</button>
         </div>
-
         <div id="paste-view" class="active">
           <textarea id="html-input" placeholder="<html>&#10;  <body>&#10;    paste your html here...&#10;  </body>&#10;</html>"></textarea>
           <div class="panel-footer">
@@ -444,7 +313,6 @@ html, body {
             <span class="footer-hint">or drag a .html file here</span>
           </div>
         </div>
-
         <div id="upload-view">
           <div id="drop-zone" ondragover="onDragOver(event)" ondragleave="onDragLeave(event)" ondrop="onDrop(event)">
             <input type="file" accept=".html,.htm" onchange="onFileSelect(event)" />
@@ -469,21 +337,40 @@ html, body {
       </div>
     </div>
 
-    <!-- Editor -->
     <div id="editor-panel">
       <div id="editor-bar">
-        <span class="bar-dot"></span>
-        <span>Click any text to edit — Enter or Esc to confirm</span>
+        <span class="bar-indicator" id="bar-indicator"></span>
+        <span id="bar-hint-text">click any text to edit — enter or esc to confirm</span>
       </div>
-      <iframe id="preview-frame" sandbox="allow-same-origin allow-scripts"></iframe>
+      <div style="display:flex;flex:1;overflow:hidden;">
+        <div id="preview-wrap">
+          <iframe id="preview-frame" sandbox="allow-same-origin allow-scripts"></iframe>
+          <div id="comment-bubble">
+            <div id="comment-bubble-snippet"></div>
+            <textarea id="comment-textarea" placeholder="Leave a comment…"></textarea>
+            <div class="bubble-actions">
+              <button class="bubble-save" onclick="saveComment()">Save</button>
+              <button class="bubble-cancel" onclick="cancelBubble()">Cancel</button>
+            </div>
+          </div>
+        </div>
+        <div id="comment-sidebar">
+          <div id="sidebar-head">
+            <span class="sidebar-title">Comments</span>
+            <button class="sidebar-clear" onclick="clearAllComments()">Clear all</button>
+          </div>
+          <div id="comment-list">
+            <div class="no-comments">No comments yet.<br>Switch to Comment mode<br>and select any text.</div>
+          </div>
+        </div>
+      </div>
     </div>
 
-    <!-- Output -->
     <div id="output-panel">
       <div id="output-header">
         <div>
           <div class="out-title">Exported HTML</div>
-          <div class="out-sub">Editor scaffolding removed — structure untouched</div>
+          <div class="out-sub" id="out-sub-text">Editor scaffolding removed — structure untouched</div>
         </div>
         <button class="btn" onclick="hideOutput()">
           <svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 2L3 5l3 3"/></svg>
@@ -504,8 +391,12 @@ html, body {
 <script>
 let pendingFileContent = null;
 let editCount = 0;
+let comments = [];
+let pendingComment = null;
+let selectedCommentId = null;
+let currentMode = 'edit';
 
-const injectScript = `
+const EDIT_INJECT = `
 (function() {
   const SKIP = new Set(['SCRIPT','STYLE','NOSCRIPT','IFRAME','OBJECT','CODE','PRE','TITLE','META','LINK','HEAD']);
   function getTextNodes(root) {
@@ -513,10 +404,7 @@ const injectScript = `
       acceptNode: function(n) {
         if (!n.textContent.trim()) return NodeFilter.FILTER_REJECT;
         let p = n.parentElement;
-        while (p) {
-          if (SKIP.has(p.tagName)) return NodeFilter.FILTER_REJECT;
-          p = p.parentElement;
-        }
+        while (p) { if (SKIP.has(p.tagName)) return NodeFilter.FILTER_REJECT; p = p.parentElement; }
         return NodeFilter.FILTER_ACCEPT;
       }
     });
@@ -524,29 +412,56 @@ const injectScript = `
     while ((n = walker.nextNode())) nodes.push(n);
     return nodes;
   }
+  const prev = document.getElementById('__htmled_comment_style__');
+  if (prev) prev.remove();
   const style = document.createElement('style');
-  style.id = '__htmled_style__';
+  style.id = '__htmled_edit_style__';
   style.textContent = [
     '[data-htmled] { cursor: text !important; border-radius: 3px; transition: background 0.1s, outline-color 0.1s; outline: 1.5px solid transparent; outline-offset: 2px; }',
     '[data-htmled]:hover { background: rgba(139,92,246,0.12) !important; outline-color: rgba(139,92,246,0.3) !important; }',
     '[data-htmled]:focus { background: rgba(139,92,246,0.16) !important; outline: 1.5px solid rgba(139,92,246,0.6) !important; outline-offset: 2px; }'
   ].join('');
   (document.head || document.documentElement).appendChild(style);
-  function wrapNode(t) {
-    const s = document.createElement('span');
-    s.setAttribute('data-htmled',''); s.setAttribute('contenteditable','true'); s.setAttribute('spellcheck','false');
-    s.textContent = t.textContent;
-    s.addEventListener('focus', function() { parent.postMessage({type:'editing',text:s.textContent.trim().substring(0,50)},'*'); });
-    s.addEventListener('blur',  function() { parent.postMessage({type:'idle'},'*'); });
-    s.addEventListener('input', function() { parent.postMessage({type:'changed'},'*'); });
-    s.addEventListener('keydown', function(e) {
-      if (e.key==='Escape'||(e.key==='Enter'&&!e.shiftKey)){e.preventDefault();s.blur();}
+  if (!document.querySelector('[data-htmled]')) {
+    getTextNodes(document.body || document.documentElement).forEach(function(t) {
+      const s = document.createElement('span');
+      s.setAttribute('data-htmled', ''); s.setAttribute('contenteditable', 'true'); s.setAttribute('spellcheck', 'false');
+      s.textContent = t.textContent;
+      s.addEventListener('focus', function() { parent.postMessage({type:'editing', text:s.textContent.trim().substring(0,50)}, '*'); });
+      s.addEventListener('blur',  function() { parent.postMessage({type:'idle'}, '*'); });
+      s.addEventListener('input', function() { parent.postMessage({type:'changed'}, '*'); });
+      s.addEventListener('keydown', function(e) { if (e.key==='Escape'||(e.key==='Enter'&&!e.shiftKey)){e.preventDefault();s.blur();} });
+      if (t.parentNode) t.parentNode.replaceChild(s, t);
     });
-    if (t.parentNode) t.parentNode.replaceChild(s, t);
   }
-  const nodes = getTextNodes(document.body || document.documentElement);
-  nodes.forEach(wrapNode);
-  parent.postMessage({type:'ready',count:nodes.length},'*');
+  parent.postMessage({type:'ready', count: document.querySelectorAll('[data-htmled]').length}, '*');
+})();
+`;
+
+const COMMENT_INJECT = `
+(function() {
+  const prev = document.getElementById('__htmled_edit_style__');
+  if (prev) prev.remove();
+  const style = document.createElement('style');
+  style.id = '__htmled_comment_style__';
+  style.textContent = '::selection { background: rgba(245,158,11,0.3) !important; } [data-htmled] { cursor: default !important; outline: none !important; background: transparent !important; }';
+  (document.head || document.documentElement).appendChild(style);
+  document.addEventListener('mouseup', function() {
+    const sel = window.getSelection();
+    if (!sel || sel.isCollapsed || !sel.toString().trim()) return;
+    const range = sel.getRangeAt(0);
+    const rect = range.getBoundingClientRect();
+    const scrollX = window.scrollX || window.pageXOffset;
+    const scrollY = window.scrollY || window.pageYOffset;
+    parent.postMessage({
+      type: 'comment-selection',
+      text: sel.toString().trim().substring(0, 120),
+      cx: rect.left + rect.width / 2 + scrollX,
+      cy: rect.top + scrollY,
+      by: rect.bottom + scrollY,
+    }, '*');
+  });
+  parent.postMessage({type:'comment-mode-ready'}, '*');
 })();
 `;
 
@@ -558,13 +473,13 @@ function switchTab(tab) {
   document.getElementById('upload-view').classList.toggle('active', tab==='upload');
 }
 
-function onDragOver(e)  { e.preventDefault(); document.getElementById('drop-zone').classList.add('drag-over'); }
-function onDragLeave()  { document.getElementById('drop-zone').classList.remove('drag-over'); }
-function onDrop(e)      { e.preventDefault(); document.getElementById('drop-zone').classList.remove('drag-over'); const f=e.dataTransfer.files[0]; if(f) readFile(f); }
-function onFileSelect(e){ const f=e.target.files[0]; if(f) readFile(f); }
+function onDragOver(e)   { e.preventDefault(); document.getElementById('drop-zone').classList.add('drag-over'); }
+function onDragLeave()   { document.getElementById('drop-zone').classList.remove('drag-over'); }
+function onDrop(e)       { e.preventDefault(); document.getElementById('drop-zone').classList.remove('drag-over'); const f=e.dataTransfer.files[0]; if(f) readFile(f); }
+function onFileSelect(e) { const f=e.target.files[0]; if(f) readFile(f); }
 
 function readFile(file) {
-  if (!file.name.match(/\.html?$/i)) { setStatus('only .html / .htm',''); return; }
+  if (!file.name.match(/\.html?$/i)) { setStatus('only .html / .htm'); return; }
   const r = new FileReader();
   r.onload = function(ev) {
     pendingFileContent = ev.target.result;
@@ -618,56 +533,236 @@ function loadSample() {
 }
 
 function injectAndRender(html) {
-  editCount = 0; updateBadge();
+  editCount = 0; comments = []; pendingComment = null; selectedCommentId = null;
+  updateBadges(); clearPins(); renderCommentList();
   const frame = document.getElementById('preview-frame');
   document.getElementById('paste-panel').style.display = 'none';
   document.getElementById('editor-panel').style.display = 'flex';
   document.getElementById('btn-back').disabled = false;
   document.getElementById('btn-output').disabled = true;
-  setStatus('loading…','');
+  document.getElementById('btn-mode-edit').disabled = false;
+  document.getElementById('btn-mode-comment').disabled = false;
+  setStatus('loading…');
   const doc = frame.contentDocument || frame.contentWindow.document;
   doc.open(); doc.write(html); doc.close();
   setTimeout(() => {
-    try {
-      const win = frame.contentWindow;
-      const s = win.document.createElement('script');
-      s.textContent = injectScript;
-      (win.document.head || win.document.documentElement).appendChild(s);
-    } catch(e) { setStatus('injection failed',''); }
+    injectCurrentMode();
   }, 300);
 }
 
+function injectCurrentMode() {
+  const win = document.getElementById('preview-frame').contentWindow;
+  const s = win.document.createElement('script');
+  s.textContent = currentMode === 'edit' ? EDIT_INJECT : COMMENT_INJECT;
+  (win.document.head || win.document.documentElement).appendChild(s);
+}
+
+function setMode(m) {
+  currentMode = m;
+  const editBtn    = document.getElementById('btn-mode-edit');
+  const commentBtn = document.getElementById('btn-mode-comment');
+  const indicator  = document.getElementById('bar-indicator');
+  const hintText   = document.getElementById('bar-hint-text');
+  const sidebar    = document.getElementById('comment-sidebar');
+
+  editBtn.className    = 'mode-btn' + (m === 'edit'    ? ' mode-edit-active'    : '');
+  commentBtn.className = 'mode-btn' + (m === 'comment' ? ' mode-comment-active' : '');
+
+  if (m === 'edit') {
+    indicator.style.background = '#8b5cf6';
+    hintText.textContent = 'edit mode — click any text to edit inline';
+    sidebar.style.display = 'none';
+  } else {
+    indicator.style.background = '#f59e0b';
+    hintText.textContent = 'comment mode — select any text to leave a note';
+    sidebar.style.display = 'flex';
+  }
+
+  cancelBubble();
+  injectCurrentMode();
+}
+
 window.addEventListener('message', function(e) {
-  if (e.data.type==='ready') {
-    const n = e.data.count;
-    setStatus(n+' node'+(n!==1?'s':'')+' editable','active');
+  const d = e.data;
+  if (!d || !d.type) return;
+  if (d.type === 'ready') {
+    const n = d.count;
+    setStatus(n + ' node' + (n !== 1 ? 's' : '') + ' editable', 'active');
     document.getElementById('btn-output').disabled = false;
   }
-  if (e.data.type==='editing') {
-    const t = e.data.text;
-    setStatus('"'+(t.length>=50?t+'…':t)+'"','editing');
+  if (d.type === 'comment-mode-ready') {
+    setStatus('select any text to comment', 'active');
+    document.getElementById('btn-output').disabled = false;
   }
-  if (e.data.type==='idle')    setStatus('saved','ok');
-  if (e.data.type==='changed') { editCount++; updateBadge(); }
+  if (d.type === 'editing') setStatus('"' + (d.text.length >= 50 ? d.text + '…' : d.text) + '"', 'editing');
+  if (d.type === 'idle')    setStatus('saved', 'ok');
+  if (d.type === 'changed') { editCount++; updateBadges(); }
+  if (d.type === 'comment-selection') handleSelection(d);
 });
+
+function handleSelection(d) {
+  cancelBubble();
+  pendingComment = d;
+  const wrap  = document.getElementById('preview-wrap');
+  const frame = document.getElementById('preview-frame');
+  const frameRect = frame.getBoundingClientRect();
+  const wrapRect  = wrap.getBoundingClientRect();
+  const offsetX   = frameRect.left - wrapRect.left;
+  const offsetY   = frameRect.top  - wrapRect.top;
+  const scrollY   = frame.contentWindow.scrollY || 0;
+
+  const pinX = d.cx + offsetX;
+  const pinY = d.cy + offsetY - scrollY;
+
+  const bubble = document.getElementById('comment-bubble');
+  const bw = 230, bh = 150;
+  const maxX = wrap.clientWidth  - bw - 8;
+  const maxY = wrap.clientHeight - bh - 8;
+  bubble.style.left = Math.min(Math.max(pinX - bw / 2, 8), maxX) + 'px';
+  bubble.style.top  = Math.min(pinY + 12, maxY) + 'px';
+
+  const snip = d.text.length > 60 ? d.text.slice(0, 60) + '…' : d.text;
+  document.getElementById('comment-bubble-snippet').textContent = '"' + snip + '"';
+  document.getElementById('comment-textarea').value = '';
+  bubble.style.display = 'flex';
+  setTimeout(function() { document.getElementById('comment-textarea').focus(); }, 50);
+}
+
+document.getElementById('comment-textarea').addEventListener('keydown', function(e) {
+  if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); saveComment(); }
+  if (e.key === 'Escape') cancelBubble();
+});
+
+function saveComment() {
+  const note = document.getElementById('comment-textarea').value.trim();
+  if (!note || !pendingComment) return;
+  const wrap  = document.getElementById('preview-wrap');
+  const frame = document.getElementById('preview-frame');
+  const frameRect = frame.getBoundingClientRect();
+  const wrapRect  = wrap.getBoundingClientRect();
+  const offsetX   = frameRect.left - wrapRect.left;
+  const offsetY   = frameRect.top  - wrapRect.top;
+  const scrollY   = frame.contentWindow.scrollY || 0;
+
+  const id = Date.now();
+  const c = {
+    id, note,
+    text: pendingComment.text,
+    px: pendingComment.cx + offsetX,
+    py: pendingComment.cy + offsetY - scrollY,
+  };
+  comments.push(c);
+  renderPin(c);
+  cancelBubble();
+  renderCommentList();
+  updateBadges();
+  setStatus(comments.length + ' comment' + (comments.length !== 1 ? 's' : ''), 'active');
+}
+
+function cancelBubble() {
+  document.getElementById('comment-bubble').style.display = 'none';
+  pendingComment = null;
+}
+
+function renderPin(c) {
+  const wrap = document.getElementById('preview-wrap');
+  const pin  = document.createElement('div');
+  pin.className = 'comment-pin';
+  pin.id = 'pin-' + c.id;
+  pin.textContent = comments.findIndex(x => x.id === c.id) + 1;
+  pin.style.left = c.px + 'px';
+  pin.style.top  = c.py + 'px';
+  pin.onclick = function() { selectComment(c.id); };
+  wrap.appendChild(pin);
+}
+
+function redrawPins() {
+  document.querySelectorAll('.comment-pin').forEach(p => p.remove());
+  comments.forEach(function(c, i) {
+    const pin = document.createElement('div');
+    pin.className = 'comment-pin' + (selectedCommentId === c.id ? ' selected' : '');
+    pin.id = 'pin-' + c.id;
+    pin.textContent = i + 1;
+    pin.style.left = c.px + 'px';
+    pin.style.top  = c.py + 'px';
+    pin.onclick = function() { selectComment(c.id); };
+    document.getElementById('preview-wrap').appendChild(pin);
+  });
+}
+
+function clearPins() {
+  document.querySelectorAll('.comment-pin').forEach(p => p.remove());
+}
+
+function selectComment(id) {
+  selectedCommentId = id;
+  document.querySelectorAll('.comment-pin').forEach(p => p.classList.remove('selected'));
+  const pin = document.getElementById('pin-' + id);
+  if (pin) pin.classList.add('selected');
+  document.querySelectorAll('.comment-card').forEach(c => c.classList.remove('selected'));
+  const card = document.getElementById('cc-' + id);
+  if (card) { card.classList.add('selected'); card.scrollIntoView({ block: 'nearest', behavior: 'smooth' }); }
+}
+
+function deleteComment(id) {
+  comments = comments.filter(function(c) { return c.id !== id; });
+  redrawPins();
+  renderCommentList();
+  updateBadges();
+}
+
+function clearAllComments() {
+  comments = []; selectedCommentId = null;
+  clearPins(); renderCommentList(); updateBadges();
+}
+
+function renderCommentList() {
+  const el = document.getElementById('comment-list');
+  if (!comments.length) {
+    el.innerHTML = '<div class="no-comments">No comments yet.<br>Switch to Comment mode<br>and select any text.</div>';
+    return;
+  }
+  el.innerHTML = comments.map(function(c, i) {
+    const snip = c.text.length > 40 ? c.text.slice(0, 40) + '…' : c.text;
+    return '<div class="comment-card' + (selectedCommentId === c.id ? ' selected' : '') + '" id="cc-' + c.id + '" onclick="selectComment(' + c.id + ')">' +
+      '<div class="cc-top"><div class="cc-num">' + (i + 1) + '</div><div class="cc-snip">' + esc(snip) + '</div></div>' +
+      '<div class="cc-note">' + esc(c.note) + '</div>' +
+      '<button class="cc-del" onclick="event.stopPropagation();deleteComment(' + c.id + ')">Delete</button>' +
+      '</div>';
+  }).join('');
+}
+
+function updateBadges() {
+  const eb = document.getElementById('edit-badge');
+  eb.textContent = editCount + (editCount === 1 ? ' edit' : ' edits');
+  eb.className = editCount > 0 ? 'active' : '';
+
+  const cb = document.getElementById('comment-badge');
+  cb.textContent = comments.length + (comments.length === 1 ? ' comment' : ' comments');
+  cb.className = comments.length > 0 ? 'active' : '';
+}
 
 function setStatus(msg, cls) {
   const s = document.getElementById('status');
-  s.textContent = msg; s.className = cls||'';
+  s.textContent = msg; s.className = cls || '';
 }
-function updateBadge() {
-  const el = document.getElementById('edit-badge');
-  el.textContent = editCount+(editCount===1?' edit':' edits');
-  el.className = editCount>0?'active':'';
+
+function esc(s) {
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 }
+
 function showPaste() {
   document.getElementById('paste-panel').style.display = 'flex';
   document.getElementById('editor-panel').style.display = 'none';
   document.getElementById('output-panel').style.display = 'none';
   document.getElementById('btn-back').disabled = true;
   document.getElementById('btn-output').disabled = true;
-  editCount = 0; updateBadge(); setStatus('—','');
+  document.getElementById('btn-mode-edit').disabled = true;
+  document.getElementById('btn-mode-comment').disabled = true;
+  editCount = 0; comments = []; pendingComment = null; selectedCommentId = null;
+  clearPins(); updateBadges(); setStatus('—');
 }
+
 function getExportedHtml() {
   const frame = document.getElementById('preview-frame');
   const win = frame.contentWindow, doc = win.document;
@@ -675,30 +770,46 @@ function getExportedHtml() {
   clone.querySelectorAll('[data-htmled]').forEach(function(span) {
     span.parentNode.replaceChild(doc.createTextNode(span.textContent), span);
   });
-  const st = clone.getElementById('__htmled_style__');
-  if (st) st.remove();
+  ['__htmled_edit_style__', '__htmled_comment_style__'].forEach(function(id) {
+    const el = clone.getElementById(id); if (el) el.remove();
+  });
   const h = clone.querySelector('html');
-  if (h) { const dt=clone.doctype; return (dt?'<!DOCTYPE '+dt.name+'>\n':'')+h.outerHTML; }
-  return (clone.body||clone.documentElement).innerHTML;
+  const dt = clone.doctype;
+  return (dt ? '<!DOCTYPE ' + dt.name + '>\n' : '') + (h ? h.outerHTML : (clone.body || clone.documentElement).innerHTML);
 }
+
 function showOutput() {
-  document.getElementById('output-code').value = getExportedHtml();
+  const html = getExportedHtml();
+  let commentBlock = '';
+  if (comments.length) {
+    commentBlock = '\n\n<!--\nCOMMENTS\n' + comments.map(function(c, i) {
+      return (i + 1) + '. "' + c.text + '"\n   ' + c.note;
+    }).join('\n') + '\n-->';
+  }
+  document.getElementById('output-code').value = html + commentBlock;
+  const sub = comments.length
+    ? 'Editor scaffolding removed · ' + comments.length + ' comment' + (comments.length !== 1 ? 's' : '') + ' appended as HTML comment'
+    : 'Editor scaffolding removed — structure untouched';
+  document.getElementById('out-sub-text').textContent = sub;
   document.getElementById('output-panel').style.display = 'flex';
 }
+
 function hideOutput() { document.getElementById('output-panel').style.display = 'none'; }
+
 function copyOutput() {
   const ta = document.getElementById('output-code');
   const confirm = document.getElementById('copy-confirm');
   navigator.clipboard.writeText(ta.value).then(function() {
     confirm.textContent = '✓ Copied';
-    setTimeout(function(){ confirm.textContent=''; }, 2000);
-  }).catch(function(){ ta.select(); document.execCommand('copy'); });
+    setTimeout(function() { confirm.textContent = ''; }, 2000);
+  }).catch(function() { ta.select(); document.execCommand('copy'); });
 }
+
 function downloadOutput() {
-  const blob = new Blob([document.getElementById('output-code').value],{type:'text/html'});
+  const blob = new Blob([document.getElementById('output-code').value], {type: 'text/html'});
   const a = document.createElement('a');
   a.href = URL.createObjectURL(blob); a.download = 'htmled-export.html'; a.click();
-  setTimeout(function(){ URL.revokeObjectURL(a.href); }, 1000);
+  setTimeout(function() { URL.revokeObjectURL(a.href); }, 1000);
 }
 </script>
 </body>
