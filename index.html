@@ -440,6 +440,8 @@ const EDIT_INJECT = `
 
 const COMMENT_INJECT = `
 (function() {
+  if (window.__htmled_comment_listening__) return;
+  window.__htmled_comment_listening__ = true;
   const prev = document.getElementById('__htmled_edit_style__');
   if (prev) prev.remove();
   const style = document.createElement('style');
@@ -451,14 +453,12 @@ const COMMENT_INJECT = `
     if (!sel || sel.isCollapsed || !sel.toString().trim()) return;
     const range = sel.getRangeAt(0);
     const rect = range.getBoundingClientRect();
-    const scrollX = window.scrollX || window.pageXOffset;
-    const scrollY = window.scrollY || window.pageYOffset;
     parent.postMessage({
       type: 'comment-selection',
       text: sel.toString().trim().substring(0, 120),
-      cx: rect.left + rect.width / 2 + scrollX,
-      cy: rect.top + scrollY,
-      by: rect.bottom + scrollY,
+      cx: rect.left + rect.width / 2,
+      cy: rect.top,
+      by: rect.bottom,
     }, '*');
   });
   parent.postMessage({type:'comment-mode-ready'}, '*');
@@ -545,8 +545,10 @@ function injectAndRender(html) {
   setStatus('loading…');
   const doc = frame.contentDocument || frame.contentWindow.document;
   doc.open(); doc.write(html); doc.close();
-  setTimeout(() => {
-    injectCurrentMode();
+  setTimeout(function() {
+    try {
+      injectCurrentMode();
+    } catch(e) { setStatus('injection failed', ''); }
   }, 300);
 }
 
@@ -609,10 +611,9 @@ function handleSelection(d) {
   const wrapRect  = wrap.getBoundingClientRect();
   const offsetX   = frameRect.left - wrapRect.left;
   const offsetY   = frameRect.top  - wrapRect.top;
-  const scrollY   = frame.contentWindow.scrollY || 0;
 
   const pinX = d.cx + offsetX;
-  const pinY = d.cy + offsetY - scrollY;
+  const pinY = d.cy + offsetY;
 
   const bubble = document.getElementById('comment-bubble');
   const bw = 230, bh = 150;
@@ -642,14 +643,13 @@ function saveComment() {
   const wrapRect  = wrap.getBoundingClientRect();
   const offsetX   = frameRect.left - wrapRect.left;
   const offsetY   = frameRect.top  - wrapRect.top;
-  const scrollY   = frame.contentWindow.scrollY || 0;
 
   const id = Date.now();
   const c = {
     id, note,
     text: pendingComment.text,
     px: pendingComment.cx + offsetX,
-    py: pendingComment.cy + offsetY - scrollY,
+    py: pendingComment.cy + offsetY,
   };
   comments.push(c);
   renderPin(c);
